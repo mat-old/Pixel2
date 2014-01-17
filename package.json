@@ -1,0 +1,32 @@
+{
+  "name": "matutter",
+  "version": "1.0.0",
+  "description": "matutter.com node.js",
+  "main": "web.js",
+  "dependencies": {
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:matutter/matutterdotcom.git"
+  },
+  "engines": {
+	"node" : "0.10.24"
+  },
+  "keywords": [
+    "mat",
+    "utter",
+    "website",
+    "main"
+  ],
+  "author": "Mathew Colin Utter",
+  "license": "none",
+  "bugs": {
+    "url": "https://github.com/matutter/matutterdotcom/issues"
+  },
+  "homepage": "https://github.com/matutter/matutterdotcom"
+}
