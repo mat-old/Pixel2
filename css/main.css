@@ -1,184 +1,173 @@
 html{
 	font-family: Arial, Helvetica, sans-serif;
 	margin-bottom: 80px;
+	background-color: #777;
+}
+
+
+.main
+{
+	background-color: #67cec8;
+	padding:15px;
+	border-bottom-width: 2px;
+	border-bottom-color: black;
+	border-bottom-style: solid;
+	margin-bottom: 10px;
+	max-height: 300px;
+
+}
+
+box
+{
+	width:30px;
+	height:30px;
+	display:inline-block;
+	margin:1px;
+	cursor: pointer;
+	text-align: left;
+	font-size: 0.8em;
+	user-select:none;
+}
+
+.btn
+{
+	margin: 10px;
+	background-color: transparent;
+	color:#80ff00;
+}
+ .btn:focus, .btn:hover
+ {
+ 	outline: none;
+ }
+
+.download, .update
+{
+	float: right;
+	margin: 0px;
+	background-color: #80ff00;
+	color: black;
+}
+
+.download:hover, .download:focus,
+.update:hover, .update:focus
+{
+	background-color: #002200;
+}
+
+.sympalette, .palette, .palpalette
+{
+	background-color: #333 !important;
+	border-color: #222 !important;
+	border-width: 5px;
+	color:#ccc !important;
+}
+
+#codearea 
+{
+	font-family: "Lucida Console", Monaco, monospace;
+}
+
+.console
+{
+	background-color: #333 !important;
+	border-color: #222 !important;
+	border-width: 5px;
+	color:#80ff00 !important;
+}
+
+.rgb
+{
+height:400px;
+overflow-y:scroll;
+}
+
+.drag
+{
+	max-height: 400px;
+	margin: 0px;
+	padding: 0px;
+}
+
+input
+{
+	background:transparent;
+	border-width: 0px;
+	color:#ccc;
+	padding:0px;
+	width: 50%;
+	text-align: right;
+	margin-bottom: -1px;
+}
+
+input:focus, input:hover
+{
+	outline: none;
+}
+
+row
+{
+	font-size: 1.6em;
+	margin: 0px;
 }
 
 .navbar
 {
-	margin-bottom: 0px;
 	border-radius: 0px;
-	min-width: 511px;
 }
 
-.navbar-nav a
+.col-sm-2, .col-sm-5
 {
-	color: #000;
-	overflow: hidden;
+	padding: 1px !important;
 }
 
-.navbar-brand
+img
 {
-	padding-top: 0px;
-	padding-bottom: 0px;
-}
-.jumbotron
-{
-	background-image:url('header.jpg');
-	background-position: center;
-	background-size: 100%;
-	background-repeat: no-repeat;
-	height: 50%;
-	border-color: black;
-	border-width: 1px;
-	border-style: solid;
-	margin-bottom: 0px;
-}
-.jumbotron h1
-{
-	margin:5px;
-	padding: 5px;
-	float: left;
-	color:white;
-	background-color: black;
-	font-size: 2.7vw;
+	margin: 0 auto;
 }
 
-next
+.btn-full
 {
-	margin-left: 100%;
-}
-
-orange
-{
-	padding-left: 5px;
-	padding-right: 5px;
-	background-color: black;
-	color:orange;
-}
-
-.resume
-{
-	background-color: #f8f8ff;
-	border-color: #dedede;
-	border-width: 1px;
-	border-style: solid;
-	color: #333;
-}
-
-.resume h3, .page-header
-{
+	width: 100%;
+	
 	margin: 0px;
-	margin-top: 10px;
-	padding: 0px;
-	margin-bottom: 5px;
-	text-transform: uppercase;
-	border-color: #000;
-}
-.resume p, li
-{
-	padding-left: 15px;
-	padding-right: 15px;
-}
-.resume .row
-{
-	padding-left: 30px;
-	padding-right: 30px;
+	border-width: 0px;
 }
 
-floatr
+.btn-full:hover, .btn-full:focus
 {
-	float:right;
+	background-color: transparent;
+	color:#ff7f00;
+	outline: none;
 }
 
-.media
+li
 {
-	margin-top: 10px !important;
+	display: inline-block;
+}
+.li-next
+{
+	display: block;
 }
 
-.progress
+.panel-bottom
 {
-    width: 100%;
-    position: relative;
+	height: 550px;
+	overflow-y: scroll;
 }
 
-.bar
+.dropzone
 {
-    background: orange;
-    height: 100%;
-    z-index: 1;
-} 
-.progress span
-{
-    position: absolute;
-    top:0px;
-    z-index: 2;
-    text-align: center;
-    width: 100%;
+	min-height: 40px;
 }
 
-
-
-.active
+red
 {
-	background-color: #00a1e2;
-	background-size: 100%;
+	color:red;
 }
 
-.navbar-default .navbar-nav>li>a:hover, .links img:hover
+.dropzone
 {
-	background-color: orange;
-	background-size: 100%;
+	background-color: RGBA(0,0,0,.50);
+	height:180px;
+	overflow: scroll;
 }
-
-.navbar-default .navbar-nav>li
-{
-	width: 33.3333%;
-}
-
-.links{}
-
-a
-{
-	cursor: pointer;
-}
-
-.email {}
-
-.top-nav
-{
-	color: orange;
-	text-align: center;
-	width: 50px;
-	height: 35px;
-}
-
-.fright
-{
-	margin-right: -40px;
-	float: right;
-	height: auto;
-	clear: right;
-}
-
-.links-container
-{
-	position: fixed;
-	left: calc(16.66666666666% - 10px);
-	margin-top: 0;
-	z-index: 0;
-}
-
-.in-40
-{
-	position: absolute;
-	left: calc(16.66666666666% + 40px);
-	padding: 0px;
-	z-index: 10;
-}
-
-.connect a, i
-{
-	margin-left: 5px;
-}
-
-

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
+<script src="pixel2.js"></script>
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" type="text/css" href="bootstrap.css">
 <link rel="stylesheet" type="text/css" href="main.css">
@@ -11,67 +11,69 @@
 <!DOCTYPE html>
 <html>
 <body>
-<script>
 
 
-function convert(image)
-{
-
-		var canvas = document.getElementById('myCanvas');
-		var codearea = document.getElementById('codearea');
-		var context = canvas.getContext('2d');
-		
-		var imageX = 0, imageY = 0;
-		var width = image.width,
-			height = image.height;
-		var pixels = new Array();
-		var collection="", r, g, b, pixel = 0;
+<nav class="navbar navbar-inverse" role="navigation">
+  <button id="generate" class="btn btn-default" onclick="generate()">Generate</button>
+  <button id="clear" class="btn btn-default disabled">Clear</button>
+</nav>
+<div class="col-sm-12">
 
 
-
-		canvas.setAttribute("style","height:"+height+"px;"+"width:"+width+"px;border:1px solid #d3d3d3;");
-
-	context.drawImage(image, 0, 0);
-
-	var data = context.getImageData(0, 0, width, height).data;
-
-	for(var i=0, n=data.length; i<n; i+=4, pixel++)
-	{
-		r = data[i];
-		g = data[i+1];
-		b = data[i+2];
-		//alpha = data[i+3] but idk
-		collection =  r + "," + g + "," +b;
-		pixels[pixel] = collection+"<br>";
-	}
+	<div class="col-sm-6">
+		<div class="panel panel-bottom panel-default console" style="height:220px;">
+			<div class="panel-heading console"><row>Console Messages</row></div>
+			<div class="panel-body console">
+				<div id="message_area"> </div>	
+			</div>
+		</div>
+	</div>
 
 
+	<div class="col-sm-6">
+		<div class="panel panel-default console" style="height:220px;">
+				<form action="/file-upload" class="dropzone" id="drop1"></form>
+				<canvas id="myCanvas" style="display:none;"></canvas>
+				<button id="generate" class="btn btn-default btn-full">Generate</button>
+		</div>
+	</div>
+	
 
-	pixels = pixels.reverse().filter( function(e, i, ary){
-	    return ary.indexOf(e, i+1) === -1; }).reverse();
-
-	codearea.innerHTML = "H:" + height + "  W:" + width + " Colors:" + pixels.length + " <br>";
-	codearea.innerHTML += pixels.join("");
-
-}
-
-function generate()
-{
-      var imageObj = new Image();
-      imageObj.onload = function() { convert(this); };
-      imageObj.corssOrigin = '';
-      imageObj.src = 'pallet.gif';
-}
-
-</script>
-
-<canvas id="myCanvas" style="border:1px solid #d3d3d3;"></canvas>
-	<br>
-<button onclick="generate()">Generate</button>
-	<br>
+</div>
 
 
-<div id="codearea"> </div>
+<div class="col-sm-3">
+	<div class="panel panel-bottom panel-default sympalette">
+		<div class="panel-heading sympalette">
+			<row><input id="symfname" type="text" placeholder="filename"> .sym<button id="sym" class="btn btn-success download">Download</button> </row>
+			<div id="iconcode"> </div>	
+		</div>
+		<div class="panel-body sympalette">
+			
+		</div>
+	</div>
+</div>
+
+<div class="col-sm-3">
+	<div class="panel panel-bottom panel-default palpalette">
+		<div class="panel-heading palpalette">
+			<row><input id="palfname" type="text" placeholder="filename"> .pal<button id="pal" class="btn btn-success download">Download</button> </row>
+
+		</div>
+		<div class="panel-body palpalette">
+			<div id="palcode"> </div>	
+		</div>
+	</div>
+</div>
+
+<div class="col-sm-6">
+	<div class="panel panel-bottom panel-default palette rgb">
+		<div class="panel-heading palette"><row>Palette <button class="btn btn-success update">Update</button></row></div>
+		<div class="panel-body palette">
+			<ul class="drag" id="sortable"> </ul>	
+		</div>
+	</div>
+</div>
 
 </body>
 </html>
@@ -80,6 +82,56 @@ function generate()
 </html>
 
 <script src="holder.js"></script>
-<!--<script src="jquery.js"></script>-->
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"> </script>
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
+<script src="jquery.js"></script>
+<script src="dropzone.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<!--<script src="http://code.jquery.com/jquery-1.10.2.min.js"> </script>-->
+<!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">-->
+<script>
+$(document).ready(function() {
+	$('#generate,#clear').click(function(){
+		$('#generate,#clear').removeClass("disabled");
+		$('#codearea,#sortable').empty();
+	});
+
+	$('#clear').click(function() {	$('#symcode,#palcode,#sortable,img,.dz-preview').empty();	});
+
+	$("#pal").click(function() {
+		var sym = $('#codearea').text();
+		var fname = $('#palfname').val();
+		if(fname.length == 0 ) fname = "New";
+		if(sym.length > 100 ) download(fname+".pal",sym);
+	});
+
+	var compare = new Array();
+	$('button.update').click(function() {
+		var rgb, index = new Array();
+		$('#codearea').empty();
+		$('#sortable box').each(function(i) {
+		    $(this).attr('id', i);
+		    $(this).text(i);
+		    rgb = 1;//palCode($(this).attr('style'));
+		    index[i] = rgb;
+		});
+	    for( n=0; n<index.length; n++ ) {
+	    	if(n==255) index[n] = index[n].substring(0, index[n].length - 1);
+		    $('#codearea').append("<li id="+n+" class='li-next'>" + index[n] + "</li>");
+		}
+	    $('#codearea').prepend("/*V P C 0 256 8 8 8 8 256 24 0  pixel2pal   LCDIcon FileDescriptor: Do not edit or move *\/<br>{");
+	 	$('#codearea').append("}");
+	    Say("Palette was updated.");
+	});
+
+	//$('button#generate').click(function(){	generate($('img').prop('src'));	}); 
+	$('button#generate').click(function(){	generate($('img').prop('src'));	}); 
+});
+
+
+$(function() {
+    $( "#sortable" ).sortable(function(){alert("moving")});
+    $( "#sortable" ).disableSelection();
+});
+
+
+
+</script>
