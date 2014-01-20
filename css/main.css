@@ -94,7 +94,7 @@ input
 	border-width: 0px;
 	color:#ccc;
 	padding:0px;
-	width: 50%;
+	width: 40%;
 	text-align: right;
 	margin-bottom: -1px;
 }
@@ -170,4 +170,20 @@ red
 	background-color: RGBA(0,0,0,.50);
 	height:180px;
 	overflow: scroll;
+}
+
+white
+{
+	color: white;
+	text-decoration: underline;
+}
+
+brand
+{
+	color:#bebebe;
+}
+
+blue
+{
+	color:#0080ff;
 }

@@ -16,6 +16,7 @@
 <nav class="navbar navbar-inverse" role="navigation">
   <button id="generate" class="btn btn-default" onclick="generate()">Generate</button>
   <button id="clear" class="btn btn-default disabled">Clear</button>
+  <div class=" navbar-right">For best performance use any image with with <white> 16bit(x1 r5 g5 b5)</white> color </div>
 </nav>
 <div class="col-sm-12">
 
@@ -46,10 +47,10 @@
 	<div class="panel panel-bottom panel-default sympalette">
 		<div class="panel-heading sympalette">
 			<row><input id="symfname" type="text" placeholder="filename"> .sym<button id="sym" class="btn btn-success download">Download</button> </row>
-			<div id="iconcode"> </div>	
+				
 		</div>
 		<div class="panel-body sympalette">
-			
+			<div id="symcode"> </div>
 		</div>
 	</div>
 </div>
@@ -97,28 +98,31 @@ $(document).ready(function() {
 	$('#clear').click(function() {	$('#symcode,#palcode,#sortable,img,.dz-preview').empty();	});
 
 	$("#pal").click(function() {
-		var sym = $('#codearea').text();
+		var pal = $('#palcode').text();
 		var fname = $('#palfname').val();
 		if(fname.length == 0 ) fname = "New";
-		if(sym.length > 100 ) download(fname+".pal",sym);
+		if(pal.length > 100 ) download(fname+".pal",pal);
+	});
+
+		$("#sym").click(function() {
+		var sym = $('#symcode').text();
+		var fname = $('#symfname').val();
+		if(fname.length == 0 ) fname = "New";
+		if(sym.length > 100 ) download(fname+".sym",sym);
 	});
 
 	var compare = new Array();
 	$('button.update').click(function() {
 		var rgb, index = new Array();
-		$('#codearea').empty();
+		$('#palcode').empty();
 		$('#sortable box').each(function(i) {
 		    $(this).attr('id', i);
 		    $(this).text(i);
-		    rgb = 1;//palCode($(this).attr('style'));
-		    index[i] = rgb;
+		    index[i] = $(this).attr('style');
 		});
-	    for( n=0; n<index.length; n++ ) {
-	    	if(n==255) index[n] = index[n].substring(0, index[n].length - 1);
-		    $('#codearea').append("<li id="+n+" class='li-next'>" + index[n] + "</li>");
-		}
-	    $('#codearea').prepend("/*V P C 0 256 8 8 8 8 256 24 0  pixel2pal   LCDIcon FileDescriptor: Do not edit or move *\/<br>{");
-	 	$('#codearea').append("}");
+		index = palFormat(index);
+		$('#palcode').append(index.join("\n<br>"));
+		$('#palcode').append("\n");
 	    Say("Palette was updated.");
 	});
 
