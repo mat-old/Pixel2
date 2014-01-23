@@ -12,75 +12,55 @@
 <html>
 <body>
 
-
-<nav class="navbar navbar-inverse" role="navigation">
-  <button id="generate" class="btn btn-default" onclick="generate()">Generate</button>
-  <button id="clear" class="btn btn-default disabled">Clear</button>
-  <white2> Size </white2> <input id="icoSize" value="32" type="number" class="icon-demension" type="text" placeholder="32"> 
+<nav class="strip" role="navigation"> 
   <div class="navbar-right">For best performance use any image with <white> 16bit(x1 r5 g5 b5)</white> color </div>
 </nav>
-<div class="col-sm-12">
+
+<div class="col-md-1 side-bar">
+	<ul class="nav nav-pills nav-stacked">
+		<button id="generate" class="btn btn-default" onclick="generate()">Generate</button>
+		Icon size<input id="icoSize" value="32" type="number" class="icon-demension" type="text" placeholder="32">
+		<button class="btn btn-success update">Update</button>
+		<button id="pal" class="btn btn-default">Download.PAL</button>
+			<input id="palfname" type="text" value="default.pal">
+		<button id="sym" class="btn btn-default">Download.SYM</button>
+			<input id="symfname" type="text" value="default.sym">
+		<button id="compresspal" class="btn btn-default disabled">Compress.PAL</button>
+		<button id="compresssym" class="btn btn-default disabled">Compress.SYM</button>
+		<button id="clear" class="btn btn-default">Clear</button>
+	</ul>
+</div>
+<div class="col-md-12 converter">
+
+	<div class="col-md-4 drop-area">
+		<form action="/file-upload" class="dropzone" id="drop1">Drop or click here to add image</form>
+		<canvas id="myCanvas" style="display:none;"></canvas>
+	</div>
+	<div class="col-md-8 palette">
+			<ul class="sortable" id="sortable"> </ul>	
+	</div>
+	<div class="col-md-3 no-pad">
+		<div class="panel-heading">sym</div>
+		<div id="symcode" class="codearea"> </div>
+	</div>
+	<div class="col-md-3 no-pad">
+		<div class="panel-heading">pal</div>
+		<div id="palcode" class="codearea"> </div>
+	</div>
+	<div class="col-md-6 no-pad">
+		<div class="panel-heading" style="text-align:center;">preview</div>
+		<div class="preview">
+			 <div class="slide-wrap"><div id="slider"></div></div>
+			<div class="tt">icon 0</div><div class="thumbnail"></div>
 
 
-	<div class="col-sm-6">
-		<div class="panel panel-bottom panel-default console" style="height:220px;">
-			<div class="panel-heading console"><row>Console Messages</row></div>
-			<div class="panel-body console">
-				<div id="message_area"> </div>	
-			</div>
+
 		</div>
 	</div>
 
 
-	<div class="col-sm-6">
-		<div class="panel panel-default console" style="height:220px;">
-				<form action="/file-upload" class="dropzone" id="drop1"></form>
-				<canvas id="myCanvas" style="display:none;"></canvas>
-				<button id="generate" class="btn btn-default btn-full">Generate</button>
-		</div>
-	</div>
-	
 
 </div>
-
-
-<div class="col-sm-3">
-	<div class="panel panel-bottom panel-default sympalette">
-		<div class="panel-heading sympalette">
-			<div class="fname-control"> <button id="sym" class="btn btn-success download">Download</button><input id="symfname" type="text" placeholder="filename"><ext>.sym</ext></div>
-				
-		</div>
-		<div class="panel-body sympalette">
-			<div id="symcode"> </div>
-		</div>
-	</div>
-</div>
-<div class="col-sm-3">
-	<div class="panel panel-bottom panel-default palpalette">
-		<div class="panel-heading palpalette">
-			<div class="fname-control"><button id="pal" class="btn btn-success download">Download</button> <input id="palfname" type="text" placeholder="filename"><ext>.pal</ext></div>
-
-		</div>
-		<div class="panel-body palpalette">
-			<div id="palcode"> </div>	
-		</div>
-	</div>
-</div>
-
-<div class="col-sm-6">
-	<div class="panel panel-bottom panel-default palette rgb">
-		<div class="panel-heading palette">
-			<h4> Palette <button class="btn btn-success update">Update</button> </h4>
-		</div>
-		<div class="panel-body palette">
-			<ul class="drag" id="sortable"> <img class="loader img-responsive" src='loading.gif'> </ul>	
-		</div>
-	</div>
-</div>
-
-</body>
-</html>
-
 </body>
 </html>
 
@@ -117,10 +97,10 @@ $(document).ready(function() {
 		var pal = $('#palcode').text();
 		var fname = $('#palfname').val();
 		if(fname.length == 0 ) fname = "New";
-		if(pal.length > 100 ) download(fname+".pal",pal);
+		if(pal.length > 100 ) download(fname.replace(".pal","")+".pal",pal);
 	});
 	$('#clear').click(function() {
-		$('img,.dz-preview,#myCanvas').empty()
+		$('img,.dz-preview,#myCanvas,#palcode,#symcode,#sortable').empty()
 		raw = new Array()
 		index = {}
 		cons = {}
@@ -129,14 +109,26 @@ $(document).ready(function() {
 		var sym = $('#symcode').text();
 		var fname = $('#symfname').val();
 		if(fname.length == 0 ) fname = "New";
-		if(sym.length > 100 ) download(fname+".sym",sym);
+		if(sym.length > 100 ) download(fname.replace(".sym","")+".sym",sym);
 	});
+	$('#slider').slider({
+    change: function(event, ui) {
+        if (event.originalEvent) {
+        	$('.preview').css('background-color', 'RGB('+ui.value+','+ui.value+','+ui.value+')')
+
+        }
+        else {
+            //programmatic change
+        }
+    }
+});
 });
 
-
+//JQ UI 
 $(function() {
     $( "#sortable" ).sortable(function(){});
     $( "#sortable" ).disableSelection();
+    $( "#slider" ).slider({ max: 255 });
 });
 
 
