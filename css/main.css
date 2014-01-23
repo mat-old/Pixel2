@@ -27,6 +27,7 @@ box
 	text-align: left;
 	font-size: 0.8em;
 	user-select:none;
+	text-shadow:0px 0px 1px #000;
 }
 
 .btn
@@ -90,24 +91,26 @@ overflow-y:scroll;
 
 input
 {
+	display: inline-block;
 	background:transparent;
 	border-width: 0px;
 	color:#ccc;
 	padding:0px;
-	width: 40%;
+	width: 80%;
 	text-align: right;
 	margin-bottom: -1px;
+}
+
+ext
+{
+	display: inline-block;
+	margin-right: 0px;
+	width: 20%;
 }
 
 input:focus, input:hover
 {
 	outline: none;
-}
-
-row
-{
-	font-size: 1.6em;
-	margin: 0px;
 }
 
 .navbar
@@ -186,4 +189,77 @@ brand
 blue
 {
 	color:#0080ff;
+}
+
+
+
+.fname-control
+{
+	display: inline;
+	font-size: 1.6em;
+	margin: 0px;
+	background-color: #222;
+	width: 100%;
+	height:30px !important;
+	margin: 0px;
+}
+
+.update 
+{
+	margin-top: -7px;
+}
+
+.loader
+{
+	display: none;
+}
+
+.navbar-right
+{
+	color:#AAA;
+	padding:15px;
+}
+
+.btn.disabled
+{
+	background-color: #000;
+}
+
+box2
+{
+	width: 1px;
+	height: 1px;
+	margin: 0px;
+	position: relative;
+	display: inline-block;
+}
+
+#symcode
+{
+	width: 328px;
+}
+
+.icon-demension
+{
+	width: 50px;
+	background-color: white;
+	color: #222;
+	border-color: #333;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 3px;
+	padding: 4px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+white2
+{
+	text-decoration: none;
+	margin:4px;
+	color:white;
 }

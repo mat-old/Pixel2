@@ -16,7 +16,8 @@
 <nav class="navbar navbar-inverse" role="navigation">
   <button id="generate" class="btn btn-default" onclick="generate()">Generate</button>
   <button id="clear" class="btn btn-default disabled">Clear</button>
-  <div class=" navbar-right">For best performance use any image with with <white> 16bit(x1 r5 g5 b5)</white> color </div>
+  <white2> Size </white2> <input id="icoSize" value="32" type="number" class="icon-demension" type="text" placeholder="32"> 
+  <div class="navbar-right">For best performance use any image with <white> 16bit(x1 r5 g5 b5)</white> color </div>
 </nav>
 <div class="col-sm-12">
 
@@ -46,7 +47,7 @@
 <div class="col-sm-3">
 	<div class="panel panel-bottom panel-default sympalette">
 		<div class="panel-heading sympalette">
-			<row><input id="symfname" type="text" placeholder="filename"> .sym<button id="sym" class="btn btn-success download">Download</button> </row>
+			<div class="fname-control"> <button id="sym" class="btn btn-success download">Download</button><input id="symfname" type="text" placeholder="filename"><ext>.sym</ext></div>
 				
 		</div>
 		<div class="panel-body sympalette">
@@ -54,11 +55,10 @@
 		</div>
 	</div>
 </div>
-
 <div class="col-sm-3">
 	<div class="panel panel-bottom panel-default palpalette">
 		<div class="panel-heading palpalette">
-			<row><input id="palfname" type="text" placeholder="filename"> .pal<button id="pal" class="btn btn-success download">Download</button> </row>
+			<div class="fname-control"><button id="pal" class="btn btn-success download">Download</button> <input id="palfname" type="text" placeholder="filename"><ext>.pal</ext></div>
 
 		</div>
 		<div class="panel-body palpalette">
@@ -69,9 +69,11 @@
 
 <div class="col-sm-6">
 	<div class="panel panel-bottom panel-default palette rgb">
-		<div class="panel-heading palette"><row>Palette <button class="btn btn-success update">Update</button></row></div>
+		<div class="panel-heading palette">
+			<h4> Palette <button class="btn btn-success update">Update</button> </h4>
+		</div>
 		<div class="panel-body palette">
-			<ul class="drag" id="sortable"> </ul>	
+			<ul class="drag" id="sortable"> <img class="loader img-responsive" src='loading.gif'> </ul>	
 		</div>
 	</div>
 </div>
@@ -89,50 +91,51 @@
 <!--<script src="http://code.jquery.com/jquery-1.10.2.min.js"> </script>-->
 <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">-->
 <script>
-$(document).ready(function() {
-	$('#generate,#clear').click(function(){
-		$('#generate,#clear').removeClass("disabled");
-		$('#codearea,#sortable').empty();
+$(document).ready(function() { 
+	$('#generate,#clear').removeClass("disabled");
+	$('button#generate').click(function(){
+		$('#message_area').append("Encoding...");
+		generate($('img').prop('src'));
+		
 	});
-
-	$('#clear').click(function() {	$('#symcode,#palcode,#sortable,img,.dz-preview').empty();	});
-
+	$('button.update').click(function() {
+		var index = new Array()
+		var rgb = []
+		$('#palcode,#symcode').empty();
+		$('#sortable box').each(function(i) {
+		    $(this).attr('id', i);
+		    $(this).text(i);
+		    index[i] = $(this).attr('style');
+		});
+		rgb = index.toRaw()
+		rgb.toPALpanel()
+		index = {}
+		index = buildIndicis(constructAssociation(rgb), raw)
+		index.toSYMpanel()
+	});
 	$("#pal").click(function() {
 		var pal = $('#palcode').text();
 		var fname = $('#palfname').val();
 		if(fname.length == 0 ) fname = "New";
 		if(pal.length > 100 ) download(fname+".pal",pal);
 	});
-
-		$("#sym").click(function() {
+	$('#clear').click(function() {
+		$('img,.dz-preview,#myCanvas').empty()
+		raw = new Array()
+		index = {}
+		cons = {}
+	});
+	$("#sym").click(function() {
 		var sym = $('#symcode').text();
 		var fname = $('#symfname').val();
 		if(fname.length == 0 ) fname = "New";
 		if(sym.length > 100 ) download(fname+".sym",sym);
 	});
-
-	var compare = new Array();
-	$('button.update').click(function() {
-		var rgb, index = new Array();
-		$('#palcode').empty();
-		$('#sortable box').each(function(i) {
-		    $(this).attr('id', i);
-		    $(this).text(i);
-		    index[i] = $(this).attr('style');
-		});
-		index = palFormat(index);
-		$('#palcode').append(index.join("\n<br>"));
-		$('#palcode').append("\n");
-	    Say("Palette was updated.");
-	});
-
-	//$('button#generate').click(function(){	generate($('img').prop('src'));	}); 
-	$('button#generate').click(function(){	generate($('img').prop('src'));	}); 
 });
 
 
 $(function() {
-    $( "#sortable" ).sortable(function(){alert("moving")});
+    $( "#sortable" ).sortable(function(){});
     $( "#sortable" ).disableSelection();
 });
 
