@@ -28,6 +28,8 @@
 		<button id="compresspal" class="btn btn-default disabled">Compress.PAL</button>
 		<button id="compresssym" class="btn btn-default disabled">Compress.SYM</button>
 		<button id="clear" class="btn btn-default">Clear</button>
+
+		<ul class="message-area"></ul>
 	</ul>
 </div>
 <div class="col-md-12 converter">
@@ -50,10 +52,10 @@
 	<div class="col-md-6 no-pad">
 		<div class="panel-heading" style="text-align:center;">preview</div>
 		<div class="preview">
-			 <div class="slide-wrap"><div id="slider"></div></div>
-			<div class="tt">icon 0</div><div class="thumbnail"></div>
-
-
+			<div class="slide-wrap"><div id="slider"></div></div>
+			
+			<div class="preview-area">
+			</div>
 
 		</div>
 	</div>
@@ -92,6 +94,8 @@ $(document).ready(function() {
 		index = {}
 		index = buildIndicis(constructAssociation(rgb), raw)
 		index.toSYMpanel()
+		var s = "Palette indexes updated"
+		s.toConsole()
 	});
 	$("#pal").click(function() {
 		var pal = $('#palcode').text();
@@ -100,7 +104,7 @@ $(document).ready(function() {
 		if(pal.length > 100 ) download(fname.replace(".pal","")+".pal",pal);
 	});
 	$('#clear').click(function() {
-		$('img,.dz-preview,#myCanvas,#palcode,#symcode,#sortable').empty()
+		$('img,.dz-preview,#myCanvas,#palcode,#symcode,#sortable,.preview-area').empty()
 		raw = new Array()
 		index = {}
 		cons = {}
@@ -112,16 +116,10 @@ $(document).ready(function() {
 		if(sym.length > 100 ) download(fname.replace(".sym","")+".sym",sym);
 	});
 	$('#slider').slider({
-    change: function(event, ui) {
-        if (event.originalEvent) {
-        	$('.preview').css('background-color', 'RGB('+ui.value+','+ui.value+','+ui.value+')')
-
-        }
-        else {
-            //programmatic change
-        }
-    }
-});
+		slide: function(event, ui) {
+			$('.preview').css('background-color', 'RGB('+ui.value+','+ui.value+','+ui.value+')')
+		}
+	});
 });
 
 //JQ UI 

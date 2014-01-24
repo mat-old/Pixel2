@@ -665,7 +665,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       completemultiple: noop,
       maxfilesexceeded: noop,
       maxfilesreached: noop,
-      previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n <img data-dz-thumbnail class='img-responsive'/>\n  </div>"
+      previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n <img data-dz-thumbnail class=''/>\n  </div>"
     };
 
     extend = function() {

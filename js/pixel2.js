@@ -1,13 +1,12 @@
 { //scope
 var raw = new Array()
 var index = {}
-var cons = {}
 var ico 	= new Number
 var area 	= new Number
 var width, height
+var imageObj = new Image()
 
 function generate(imgdata) {
-	var imageObj = new Image();
 	imageObj.src = imgdata;
 	convert(imageObj);
 }
@@ -22,10 +21,12 @@ function convert(image)
 		canvas.width = width
 		canvas.height = height
 	var context = canvas.getContext('2d');
-		cons = document.getElementById('message_area');
 	var collection="", r, g, b, pixel;
 	context.drawImage(image, 0, 0);
 	var data = context.getImageData(0, 0, width, height).data;
+
+	cutImageUp()
+
 
 	index["0, 0, 0"] = 0
 	index["255, 255, 255"] = 255
@@ -86,6 +87,42 @@ function download(filename, text) {
     pom.setAttribute('download', filename);
     pom.click();
 }
+
+function cutImageUp() { // thanks stack over flow
+    var imagePieces = [];
+    var i = 0
+    for(var x = 0; x < width/ico; ++x) {
+        for(var y = 0; y < height/ico; ++y) {
+            var canvas = document.getElementById('myCanvas');
+            canvas.width = ico;
+            canvas.height = ico;
+            var context = canvas.getContext('2d');
+            context.drawImage(imageObj, x * ico, y * ico, ico, ico, 0, 0, canvas.width, canvas.height);
+            imagePieces.push(canvas.toDataURL());
+            $('.preview-area').append('<div class="thumbnail"><img id="'+i+'"></div>')
+            var anImageElement = document.getElementById(i);
+    		anImageElement.src = imagePieces[i++];
+        }
+    }
+}
+
+
+
+drawSprite = function(ctx)
+{
+	var a, c, i=0, sprite = new Array()
+	for(a=0;a<height/ico;a++)
+		for(c=0;c<width/ico;c++) {
+			//sprite.push(ctx.getImageData(c*ico, a*ico, ico, ico))
+			s = a+","+c
+			$('.preview').append('<div class="thumbnail"><canvas id="'+s+'"></canvas></div>')
+			var canvas = document.getElementById(s)
+		    var microctx = canvas.getContext("2d")
+			microctx.drawImage(ctx.getImageData(c*ico, a*ico, ico, ico).data, 0, 0)
+		}
+
+
+}
 Array.prototype.toSYMpanel = function() {
 	var icon = {}
 	var text = ""
@@ -98,18 +135,17 @@ Array.prototype.toSYMpanel = function() {
 			for(c=0;c<width/ico;c++)
 				for(d=0;d<ico;d++)
 					icon[a+","+c]+=this[i++]+",<br>\n"
-	//alert(width/ico + " " + height/ico + " " + i)
 	i=0
 	for(a=0;a<height/ico;a++)
 		for(c=0;c<width/ico;c++) {
-			text += "/* Element 0x00"+(i++).hex().replace("0x","")+" - Char 0x00"+i.hex().replace("0x","")+" */<br>\n{{ 0, 8, 32, 32 },{\n<br>"
+			text += "/* Element 0x00"+(i++).hex().replace("0x","")+" - Char 0x00"+i.hex().replace("0x","")+" */<br>\n{{ 0, 8, "+ico+", "+ico+" },{\n<br>"
 			text += icon[a+","+c].replace("undefined","")
 			text += "}},\n<br>\n<br>"
 		}
 		
 	$('#symcode').prepend(text.substring(0, text.length - 19))
 	$('#symcode').append("\n<br>}}\n\n");
-	$('#symcode').prepend("/*V F 12 3 32 32 N Q  PAL<pixel2.pal>  pixel2.sym   LCDIcon FileDescriptor: Do not edit or move */\n<br>/* Put Your Comments Here */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>\n<br>\n<br>");		//$('#symcode').append((i++) + " " + icon[a+","+c].length+"<br>");
+	$('#symcode').prepend("/*V F 12 3 "+ico+" "+ico+" N Q  PAL<pixel2.pal>  pixel2.sym   LCDIcon FileDescriptor: Do not edit or move */\n<br>/* Put Your Comments Here */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>/* */\n<br>\n<br>\n<br>");		//$('#symcode').append((i++) + " " + icon[a+","+c].length+"<br>");
 }
 Array.prototype.toPALpanel = function() {
 	$('#palcode').empty();
@@ -157,7 +193,7 @@ Array.prototype.toRaw = function() {
 	return s
 }
 String.prototype.toConsole = function() {
-	cons.innerHTML += "<li class='li-next'>" + this + "</li>"
+	$('.message-area').append("<li>" + this + "</li>")
 }
 String.prototype.hex16 = function() {
 	var s = this.match(/\d+/g).map(Number);

@@ -2,7 +2,10 @@ html{
 	font-family: Arial, Helvetica, sans-serif;
 	margin-bottom: 80px;
 	width: 100%;
-	background-color: #777;
+	background-color: #333;
+}
+body {
+	background-color: #333;
 }
 
 /* removes nasty number input things */
@@ -166,30 +169,10 @@ li
 	border-color: #111;
 	border-width: 1px;
 	margin: 15px;
-	margin-top: 0px;
 	border-radius: 3px;
-	border-top-style: none;
-	border-top-right-radius: 0px;
-	border-top-left-radius: 0px;
-	width: 82px;
-	height: 80px;
-}
-.tt
-{
-	width: 82px !important;
-	height:24px;
-	text-align: center;
-	background-color: transparent;
-	color: white;
-	margin: 15px;
-	margin-bottom: 0px;
-	border-style: dotted;
-	border-color: #111;
-	border-width: 1px;
-	border-bottom-style: none;
-	border-radius: 3px;
-	border-bottom-right-radius:0px; 
-	border-top-left-radius:0px;
+	width: 42px;
+	height: 42px;
+	display: inline-block;
 }
 .ui-slider
 {
@@ -218,3 +201,9 @@ li
 	margin-right: 10%;
 	margin-left: 10%;
 }
+#generate
+{
+	height: 90px;
+}
+.preview-area {}
+.message-area {}
